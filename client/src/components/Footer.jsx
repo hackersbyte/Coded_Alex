@@ -8,7 +8,7 @@ export default function FooterCom() {
       <div className='w-full max-w-7xl mx-auto'>
         <div className='grid w-full justify-between sm:flex md:grid-cols-1'>
                 <div className='mt-5'>
-                    <Link to="/" className='self-center whitespace-nowrap text-sm
+                    <Link to="/" className='self-center whitespace-nowrap text-lg
                         sm:text-xl font-semibold dark:text-white' >
                             <span className='px-3 py-1 bg-gradient-to-r from-blue-500 
                               via-indigo-600 to-pink-600 rounded-lg text-white' >
@@ -17,7 +17,7 @@ export default function FooterCom() {
                         Blog
                     </Link>
                 </div>
-                <div className='grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6'>
+                <div className='grid grid-cols-2 gap-3 mt-4 sm:grid-cols-3 sm:gap-6'>
                     <div>
                     <Footer.Title title='About' />
                         <Footer.LinkGroup col>
@@ -41,7 +41,7 @@ export default function FooterCom() {
                         <Footer.Title title='Follow us' />
                         <Footer.LinkGroup col>
                             <Footer.Link
-                            href='https://www.github.com/alexmutonga'
+                            href='https://www.github.com/hackersbyte'
                             target='_blank'
                             rel='noopener noreferrer'
                             >
@@ -68,13 +68,25 @@ export default function FooterCom() {
                 />
                 <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
                     <Footer.Icon href='#' icon={BsFacebook}/>
-                    <Footer.Icon href='#' icon={BsInstagram}/>
-                    <Footer.Icon href='#' icon={BsTwitter}/>
-                    <Footer.Icon href='https://github.com/alexmutonga' icon={BsGithub}/>
-                    <Footer.Icon href='#' icon={BsLinkedin}/>
-                    <Footer.Icon href='#' icon={BsYoutube}/>
-                    <Footer.Icon href='#' icon={BsThreads}/>
-                    <Footer.Icon href='#' icon={BsTiktok}/>
+                    <Footer.Icon  
+                        onClick={() => window.open("https://www.instagram.com/coded_alex_official", "_blank")} icon={BsInstagram}
+                    />
+                    <Footer.Icon 
+                        onClick={() => window.open("https://twitter.com/coded_alex_offi", "_blank")} icon={BsTwitter}
+                    />
+                    <Footer.Icon href='https://github.com/hackersbyte'  icon={BsGithub}/>
+
+                    <Footer.Icon 
+                        onClick={() => window.open("https://www.linkedin.com/in/alex-mutonga/", "_blank")} icon={BsLinkedin}
+                    />
+                    <Footer.Icon
+                        onClick={() => window.open("https://www.youtube.com/channel/UCa3tafrUF0Y2_ZzQw9P5N8A", "_blank")} icon={BsYoutube}/>
+                    <Footer.Icon 
+                        onClick={() => window.open("https://www.threads.net/@coded_alex_official", "_blank")} icon={BsThreads}
+                    />
+                    <Footer.Icon 
+                        onClick={() => window.open("https://www.tiktok.com/@coded_alex_official", "_blank")} icon={BsTiktok}
+                    />
 
                 </div>
             </div>
