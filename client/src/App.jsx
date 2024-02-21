@@ -1,6 +1,8 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {About, Dashboard, Home, Projects, SignIn, SignUp, } from  './pages';
 import { Footer, Header } from './components';
+import { Provider } from 'react-redux';
+
 
 export default function App() { 
   return (
@@ -12,7 +14,7 @@ export default function App() {
       <Route path="/projects" element={<Projects />}></Route>
       <Route path="/about" element={<About />}></Route>
       <Route path="/signup" element={<SignUp />}></Route>
-      <Route path="/login" element={<SignIn />}></Route>
+      <Route path="/signin" element={<SignIn />}></Route>
     </Routes>
     <Footer/>
     </BrowserRouter>
