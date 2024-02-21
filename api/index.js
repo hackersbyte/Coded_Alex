@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import dotenv  from 'dotenv';
 import userRoutes  from './routes/user.route.js'
 import authRoutes  from './routes/auth.route.js'
-import errorHandler from './utils/error.js'
+// import errorHandler from './utils/error.js'
 
 dotenv.config();
 
