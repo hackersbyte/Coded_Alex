@@ -4,11 +4,18 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../redux/theme/themeSlice';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { HiMenuAlt1, HiX } from "react-icons/hi";
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { menu, close } from "../assets";
-
-export default function Header() {
+import { HiUser,  
+  HiDocumentText, 
+  HiOutlineUserGroup, 
+  HiAnnotation, 
+  HiChartPie, 
+  } from 'react-icons/hi';
+import GradientDefs from './GradientDefs';
+export default function Header( toggleSidebar, handleSignout, tab) {
   const path = useLocation().pathname;
   const location = useLocation();
   const dispatch = useDispatch();
@@ -17,8 +24,10 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle, setTab] = useState(false);
   const [active, setActive] = useState("");
+  const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
+  
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -36,14 +45,111 @@ export default function Header() {
     navigate(`/search?${searchQuery}`);
   };
 
+  
+
+
   return (
+    <>
+    <GradientDefs />
     <Navbar className='border-b-2 bg-transparent sm:px-16 px-6'>
+        {/* Dashboard Mobile Menu to replace the Sidebar */}
+        {isMobile && location.pathname.includes('/dashboard') && (
+          <>
+            <div className='mr-4'>
+              {dashboardMenuOpen ? (
+                <HiX
+                  className='w-[28px] h-[28px] object-contain cursor-pointer'
+                  style={{ fill: 'url(#Gradient1)' }}
+                  onClick={() => setDashboardMenuOpen(false)}
+                />
+              ) : (
+                <HiMenuAlt1
+                  className='w-[28px] h-[28px] object-contain cursor-pointer'
+                  style={{ fill: 'url(#Gradient1)' }}
+                  onClick={() => setDashboardMenuOpen(true)}
+                />
+              )}
+            </div>
+            <div
+              className={`${
+                dashboardMenuOpen ? "flex" : "hidden"
+              } p-6 absolute top-20 left-0 mx-4 my-2 min-w-[140px] z-10 rounded-xl app__navbar`}
+            >
+              {/* Dashboard menu items */}
+              <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4'>
+                <Link
+                  to='/dashboard?tab=dash'
+                  onClick={() => {
+                    setDashboardMenuOpen(false);
+                    setTab("dash");
+                  }}
+                >
+                  <div className="p-2 flex items-center">
+                    <HiChartPie className="mr-2" />
+                    Dashboard
+                  </div>
+                </Link>
+                <Link 
+                  to='/dashboard?tab=profile'
+                  onClick={() => {
+                    setDashboardMenuOpen(false)
+                    setTab("profile")
+                  }}
+                  >
+                  <div className="p-2 flex items-center">
+                    <HiUser className="mr-2" />
+                    Profile
+                  </div>
+                </Link>
+                <Link to='/dashboard?tab=posts'
+                  onClick={() => {
+                    setDashboardMenuOpen(false)
+                    setTab("posts")
+                  }}
+                >
+                  <div className="p-2 flex items-center">
+                    <HiDocumentText className="mr-2" />
+                    Posts
+                  </div>
+                </Link>
+                <Link to='/dashboard?tab=users'
+                  onClick={() => {
+                    setDashboardMenuOpen(false)
+                    setTab("users")
+                  }}
+                >
+                  <div className="p-2 flex items-center">
+                    <HiOutlineUserGroup className="mr-2" />
+                    Users
+                  </div>
+                </Link>
+                <Link to='/dashboard?tab=comments'
+                  onClick={() => {
+                    setDashboardMenuOpen(false)
+                    setTab("comments")
+                  }}
+                >
+                  <div className="p-2 flex items-center">
+                    <HiAnnotation className="mr-2" />
+                    Comments
+                  </div>
+                </Link>
+                <div className="p-2 cursor-pointer" onClick={handleSignout}>
+                  {/* < HiArrowSmRight className='mr-2'/> */}
+                  Sign Out
+                </div>
+              </ul>
+              </div>
+              </>
+              )}
+
       <Link to="/" className='self-center whitespace-nowrap text-sm
         sm:text-xl font-semibold dark:text-white mr-5' >
         <span className='px-3 py-1 bg-gradient-to-r from-blue-500 
           via-indigo-600 to-pink-600 rounded-lg text-white' >Coded Alex</span>
         Blog
       </Link>
+
       <form onSubmit={handleSubmit}>
         <TextInput
           type='text'
@@ -59,6 +165,7 @@ export default function Header() {
       </Button>
       {isMobile ? (
         <>
+
           <div className='flex flex-1 justify-end items-center'>
             <div className='mr-4'>
               <Button
@@ -117,7 +224,7 @@ export default function Header() {
             <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4'>
               <NavLink
                 to='/'
-                className={({ isActive }) => (isActive ? "text-blue-600" : "text-gray-300")}
+                className={({ isActive }) => (isActive ? "text-blue-600" : "text-black-300")}
                 onClick={() => {
                   setToggle(!toggle);
                   setActive("Home");
@@ -127,7 +234,7 @@ export default function Header() {
               </NavLink>
               <NavLink
                 to='/about'
-                className={({ isActive }) => (isActive ? "text-blue-600" : "text-gray-300")}
+                className={({ isActive }) => (isActive ? "text-blue-600" : "text-black-300")}
                 onClick={() => {
                   setToggle(!toggle);
                   setActive("About");
@@ -137,7 +244,7 @@ export default function Header() {
               </NavLink>
               <NavLink
                 to='/works'
-                className={({ isActive }) => (isActive ? "text-blue-600" : "text-gray-300")}
+                className={({ isActive }) => (isActive ? "text-blue-600" : "text-black-300")}
                 onClick={() => {
                   setToggle(!toggle);
                   setActive("Works");
@@ -193,6 +300,7 @@ export default function Header() {
         </>
       )}
     </Navbar>
+  </>
   );
 }
 
