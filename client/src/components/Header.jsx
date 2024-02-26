@@ -15,7 +15,7 @@ import { HiUser,
   HiChartPie, 
   } from 'react-icons/hi';
 import GradientDefs from './GradientDefs';
-export default function Header( toggleSidebar, handleSignout, tab) {
+export default function Header(  handleSignout) {
   const path = useLocation().pathname;
   const location = useLocation();
   const dispatch = useDispatch();

@@ -13,12 +13,11 @@ import { signoutSuccess } from '../redux/user/userSlice';
 import { useMediaQuery } from 'react-responsive';
 
 
-export default function DashSidebar({ visible, toggleSidebar }) {
+export default function DashSidebar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const [tab, setTab] = useState('');
-  const [isHovered ] = useState(false);
 
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
