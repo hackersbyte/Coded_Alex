@@ -9,10 +9,14 @@ import {
   signInFailure,
 } from '../redux/user/userSlice'
 import OAuth from '../components/OAuth';
+import { RiEyeFill, RiEyeCloseFill } from 'react-icons/ri';
+import { useMediaQuery } from 'react-responsive';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -43,6 +47,12 @@ export default function SignIn() {
       dispatch(signInFailure(error.message));
     }
   };
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5' >
@@ -73,15 +83,32 @@ export default function SignIn() {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div >
               <Label value='Your Password'/>
               <TextInput
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder='**********'
                 id='password'
                 onChange={handleChange}
               />
-            </div>
+               {isMobile ? (
+                <button
+                  type='button'
+                  className='text-gray-500 cursor-pointer right-3 top-2/4 absolute -translate-x-3/4 -translate-y-3/4'
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <RiEyeCloseFill size='20' /> : <RiEyeFill size='20' />}
+                </button>
+              ) : (
+                <button
+                  type='button'
+                  className='text-sm text-gray-500 cursor-pointer'
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? 'Hide' : 'Show'} Password
+                </button>
+              )}
+              </div>
             <Button gradientDuoTone='purpleToPink'
               type='submit'
               disabled={loading}
@@ -115,3 +142,5 @@ export default function SignIn() {
     </div>
   )
 }
+
+

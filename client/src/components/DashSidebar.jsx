@@ -10,7 +10,6 @@ import { HiUser,
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice';
-import { useMediaQuery } from 'react-responsive';
 
 
 export default function DashSidebar() {
@@ -19,7 +18,7 @@ export default function DashSidebar() {
   const { currentUser } = useSelector((state) => state.user);
   const [tab, setTab] = useState('');
 
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const isAdmin = currentUser && currentUser.role === 'admin';
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -47,8 +46,8 @@ export default function DashSidebar() {
 
   return (
     <>
-
-      <Sidebar className={`w-full h-screen ${isMobile ? 'w-0 overflow-hidden' : 'w-40 overflow-auto'}`}>
+      {currentUser && currentUser.isAdmin && (
+      <Sidebar className={`w-full h-screen`}>
 
 
         <Sidebar.Items>
@@ -84,6 +83,7 @@ export default function DashSidebar() {
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
+      )}
     </>
   );
 }

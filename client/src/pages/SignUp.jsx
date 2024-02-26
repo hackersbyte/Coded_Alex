@@ -2,12 +2,16 @@ import {useState} from 'react'
 import {Alert, Label, TextInput, Button, Spinner } from 'flowbite-react'
 import {Link, useNavigate}  from "react-router-dom";
 import OAuth from '../components/OAuth';
+import { RiEyeFill, RiEyeCloseFill } from 'react-icons/ri';
+import { useMediaQuery } from 'react-responsive';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+  const [showPassword, setShowPassword] = useState(false);
 
 
   const handleChange = (e)  => {
@@ -40,6 +44,10 @@ export default function SignUp() {
       }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className='min-h-screen mt-20 '>
     <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
@@ -69,6 +77,24 @@ export default function SignUp() {
           <div>
             < Label value='Your Password:'/>
             <TextInput type='password' placeholder='Password' id='password' onChange={handleChange}/>
+            {isMobile ? (
+                <button
+                  type='button'
+                  className='text-gray-500 cursor-pointer right-3 top-2/4 absolute -translate-x-3/4 -translate-y-3/4'
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <RiEyeCloseFill size='20' /> : <RiEyeFill size='20' />}
+                </button>
+              ) : (
+                <button
+                  type='button'
+                  className='text-sm text-gray-500 cursor-pointer'
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? 'Hide' : 'Show'} Password
+                </button>
+              )}
+
           </div>
           <Button gradientDuoTone='purpleToPink' type='submit'disabled={loading}> 
             { loading ? ( 

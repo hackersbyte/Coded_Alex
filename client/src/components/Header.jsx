@@ -15,7 +15,8 @@ import { HiUser,
   HiChartPie, 
   } from 'react-icons/hi';
 import GradientDefs from './GradientDefs';
-export default function Header(  handleSignout) {
+import { signoutSuccess } from '../redux/user/userSlice';
+export default function Header() {
   const path = useLocation().pathname;
   const location = useLocation();
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export default function Header(  handleSignout) {
   const [toggle, setToggle, setTab] = useState(false);
   const [active, setActive] = useState("");
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
+  const isAdmin = currentUser && currentUser.role === 'admin';
   
 
   useEffect(() => {
@@ -45,6 +47,22 @@ export default function Header(  handleSignout) {
     navigate(`/search?${searchQuery}`);
   };
 
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   
 
 
@@ -53,7 +71,7 @@ export default function Header(  handleSignout) {
     <GradientDefs />
     <Navbar className='border-b-2 bg-transparent sm:px-16 px-6'>
         {/* Dashboard Mobile Menu to replace the Sidebar */}
-        {isMobile && location.pathname.includes('/dashboard') && (
+        {isMobile && currentUser && currentUser.isAdmin && location.pathname.includes('/dashboard') && (
           <>
             <div className='mr-4'>
               {dashboardMenuOpen ? (
@@ -192,14 +210,14 @@ export default function Header(  handleSignout) {
                       {currentUser.email}
                     </span>
                   </Dropdown.Header>
-                  <Link to="/dashboard?tab=dash">
+                  {currentUser && currentUser.isAdmin && (<Link to="/dashboard?tab=dash">
                     <Dropdown.Item>Dashboard</Dropdown.Item>
-                  </Link>
+                  </Link>)}
                   <Link to="/dashboard?tab=profile">
                     <Dropdown.Item>Profile</Dropdown.Item>
                   </Link>
                   <Dropdown.Divider />
-                  <Dropdown.Item >Log out</Dropdown.Item>
+                  <Dropdown.Item onClick={handleSignout} >Log out</Dropdown.Item>
                 </Dropdown>
               ) : (
                 <Link to='signin'>
@@ -281,14 +299,14 @@ export default function Header(  handleSignout) {
                       {currentUser.email}
                     </span>
                   </Dropdown.Header>
-                  <Link to="/dashboard?tab=dash">
+                  {currentUser && currentUser.isAdmin && (<Link to="/dashboard?tab=dash">
                     <Dropdown.Item>Dashboard</Dropdown.Item>
-                  </Link>
+                  </Link>)}
                   <Link to="/dashboard?tab=profile">
                     <Dropdown.Item>Profile</Dropdown.Item>
                   </Link>
                   <Dropdown.Divider />
-                  <Dropdown.Item >Log out</Dropdown.Item>
+                  <Dropdown.Item onClick={handleSignout}>Log out</Dropdown.Item>
                 </Dropdown>
               ) : (
                 <Link to='signin'>
