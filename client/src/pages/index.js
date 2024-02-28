@@ -4,6 +4,7 @@ import Dashboard from './Dashboard'
 import Projects from './Projects'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
+import CreatePost from './CreatePost';
 
 export {
     Home,
@@ -12,6 +13,7 @@ export {
     Projects,
     SignIn,
     SignUp,
+    CreatePost,
 };
 
 

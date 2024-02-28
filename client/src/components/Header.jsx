@@ -28,7 +28,6 @@ export default function Header() {
   const [toggle, setToggle, setTab] = useState(false);
   const [active, setActive] = useState("");
   const [dashboardMenuOpen, setDashboardMenuOpen] = useState(false);
-  const isAdmin = currentUser && currentUser.role === 'admin';
   
 
   useEffect(() => {
