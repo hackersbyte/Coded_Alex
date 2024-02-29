@@ -73,3 +73,46 @@ export const getposts = async (req, res, next) => {
     next(error)
   }
 };
+
+
+export const deletepost = async  (req,res,next) =>{
+  if (!req.user.isAdmin || req.user.id !==  req.params.userId){
+    return next(errorHandler(403, 'You are not authorized to perform this action'));
+  }
+  try {
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json('The post has been deleted');
+  }catch(err){
+    next(err);
+  }
+};
+
+
+export const updatepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(errorHandler(403, 'You are not allowed to update this post'));
+  }
+
+  try {
+    // Check if the post with the given ID exists
+    const existingPost = await Post.findById(req.params.postId);
+    if (!existingPost) {
+      return next(errorHandler(404, 'Post not found'));
+    }
+
+    // Update the post
+    existingPost.title = req.body.title;
+    existingPost.content = req.body.content;
+    existingPost.category = req.body.category;
+    existingPost.image = req.body.image;
+
+    const updatedPost = await existingPost.save();
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
