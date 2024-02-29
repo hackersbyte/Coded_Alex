@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import DashSidebar from '../components/DashSidebar';
-import DashProfile from '../components/DashProfile';
+import {DashProfile, DashPosts }from '../components';
 import { useMediaQuery } from 'react-responsive';
 
 const Dashboard = () => {
@@ -31,6 +31,8 @@ const Dashboard = () => {
       <div className="flex-1 flex flex-col md:flex-row">
         {/* Profile */}
         {tab === 'profile' && <DashProfile />}
+        {/* Profile */}
+        {tab === 'posts' && <DashPosts />}
       </div>
     </div>
   );
