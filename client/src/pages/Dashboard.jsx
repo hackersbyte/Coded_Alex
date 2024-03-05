@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import DashSidebar from '../components/DashSidebar';
-import {DashProfile, DashPosts, DashUsers }from '../components';
+import {DashProfile, DashPosts, DashUsers, DashComments }from '../components';
 import { useMediaQuery } from 'react-responsive';
 
 const Dashboard = () => {
@@ -35,6 +35,8 @@ const Dashboard = () => {
         {tab === 'posts' && <DashPosts />}
         {/* Users */}
         {tab === 'users' && <DashUsers />}
+        {/* Comments */}
+        {tab === 'comments' && <DashComments />}
       </div>
     </div>
   );

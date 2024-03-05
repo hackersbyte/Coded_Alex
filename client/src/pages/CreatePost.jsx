@@ -8,28 +8,18 @@ import {
   uploadBytesResumable
 } from 'firebase/storage'
 import { app }  from "../firebase";
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import {useNavigate, useLocation} from  'react-router-dom';
+import {useNavigate} from  'react-router-dom';
 
 export default function CreatePost() {
-  const path = useLocation().pathname;
-  const location = useLocation();
-  const [file, setFile ] = useState(null);
+  const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
-  const [imageUploadError, setImageUploadError ] = useState(null);
+  const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-  const [publishError, setPublishError] = useState(null)
+  const [publishError, setPublishError] = useState(null);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get('searchTerm');
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
 
   const handleUpdloadImage = async () => {
     try {
@@ -52,7 +42,6 @@ export default function CreatePost() {
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
-          console.log(error)
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -68,8 +57,6 @@ export default function CreatePost() {
       console.log(error);
     }
   };
-
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -93,23 +80,21 @@ export default function CreatePost() {
     } catch (error) {
       setPublishError('Something went wrong');
     }
-  }; 
+  };
 
   return (
     <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-semibold' >
-        Create a  new post
-      </h1>
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}> {/* handleSubmit */}
+      <h1 className='text-center text-3xl my-7 font-semibold'>Create a post</h1>
+      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
         <div className='flex flex-col gap-4 sm:flex-row justify-between'>
-          < TextInput
+          <TextInput
             type='text'
             placeholder='Title'
             required
             id='title'
             className='flex-1'
             onChange={(e) =>
-              setFormData({...formData, title:  e.target.value})
+              setFormData({ ...formData, title: e.target.value })
             }
           />
           <Select
@@ -128,18 +113,17 @@ export default function CreatePost() {
             <option value='web'>Web</option>
             <option value='freeresources'>Free Resources</option>
           </Select>
-        </div>
-        <div className='flex gap-4 items-center justify-between border-4 border-teal-500 
-          boder-dotted p-3 ' 
-        >
+          </div>
+        <div className='flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3'>
           <FileInput
             type='file'
             accept='image/*'
             onChange={(e) => setFile(e.target.files[0])}
           />
-          <Button 
+          <Button
             type='button'
             gradientDuoTone='purpleToBlue'
+            size='sm'
             outline
             onClick={handleUpdloadImage}
             disabled={imageUploadProgress}
@@ -151,19 +135,19 @@ export default function CreatePost() {
                   text={`${imageUploadProgress || 0}%`}
                 />
               </div>
-                ) : (
-                  'Upload Image'
-                )}
+            ) : (
+              'Upload Image'
+            )}
           </Button>
         </div>
         {imageUploadError && <Alert color='failure'>{imageUploadError}</Alert>}
-        { formData.image && (
+        {formData.image && (
           <img
             src={formData.image}
-            alt='Upload'
+            alt='upload'
             className='w-full h-72 object-cover'
           />
-        ) }
+        )}
         <CKEditor
           className='h-72 mb-12'
           editor={Editor.Editor}
